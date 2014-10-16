@@ -26,6 +26,9 @@ class ViewController: UIViewController {
     
     var lemonsToMix:Int = 0
     var iceToMix:Int = 0
+    var lemonadeRatio:Double = lemonsToMix/iceToMix
+    
+    var customers:[Double] = []
     
     // Labels
     
@@ -111,6 +114,30 @@ class ViewController: UIViewController {
     }
     
     @IBAction func startButtonPressed(sender: AnyObject) {
+        customers.removeAll(keepCapacity: false)
+        createCustomers()
+        
+        for var customer = 0; customer < customers.count; customer++ {
+            if (customers[customer] >= 0 && customers[customer] < 0.4 && lemonadeRatio > 1) {
+                
+                
+                println("Paid")
+            }
+            else if (customers[customer] >= 0.4 && customers[customer] < 0.6 && lemonadeRatio == 1) {
+                
+                
+                println("Paid")
+            }
+            else if (customers[customer] >= 0.6 && customers[customer] < 1.0 && lemonadeRatio < 1) {
+                
+                
+                println("Paid")
+            }
+            else {
+                //no payment
+                println("No match, No revenue")
+            }
+        }
     }
     
 
@@ -142,6 +169,16 @@ class ViewController: UIViewController {
         var alert = UIAlertController(title: header, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func createCustomers() {
+        
+        var numberOfCustomers = Int(arc4random_uniform(UInt32(10)))
+        
+        for var i = 0; i <= numberOfCustomers; i++ {
+            self.customers.append((Double(arc4random_uniform(UInt32(100)))+1)/100)
+        }
+        
     }
 
 }
