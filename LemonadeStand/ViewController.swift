@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     var lemonsToMix:Int = 0
     var iceToMix:Int = 0
-    var lemonadeRatio:Double = lemonsToMix/iceToMix
+    var lemonadeRatio:Double = 0.0
     
     var customers:[Double] = []
     
@@ -50,6 +50,7 @@ class ViewController: UIViewController {
         
         if currentCash >= lemonPrice {
             lemonsToBuy++
+            currentLemons++
             currentCash -= lemonPrice
         }
         else {
@@ -67,6 +68,7 @@ class ViewController: UIViewController {
         }
         else {
             lemonsToBuy--
+            currentLemons--
             currentCash += lemonPrice
         }
         
@@ -77,6 +79,7 @@ class ViewController: UIViewController {
     @IBAction func purchaseIcePressed(sender: AnyObject) {
         if currentCash >= icePrice {
             iceToBuy++
+            currentIce++
             currentCash -= icePrice
         }
         else {
@@ -94,6 +97,7 @@ class ViewController: UIViewController {
         }
         else {
             iceToBuy--
+            currentIce--
             currentCash += icePrice
         }
         
@@ -116,7 +120,7 @@ class ViewController: UIViewController {
     @IBAction func startButtonPressed(sender: AnyObject) {
         customers.removeAll(keepCapacity: false)
         createCustomers()
-        
+
         for var customer = 0; customer < customers.count; customer++ {
             if (customers[customer] >= 0 && customers[customer] < 0.4 && lemonadeRatio > 1) {
                 
