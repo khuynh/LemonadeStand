@@ -70,6 +70,16 @@
                                 <color key="textColor" red="0.2024050678240904" green="0.66756538722826086" blue="0.013467882352538969" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mu7-7j-c5u">
+                                <rect key="frame" x="110" y="510" width="117" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.90288985345902451" blue="0.059193644749589769" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Start Day">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RtS-zA-UkI"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ice Cubes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OxA-NF-YoN">
                                 <rect key="frame" x="43" y="122" width="94" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -172,16 +182,15 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mu7-7j-c5u">
-                                <rect key="frame" x="102" y="424" width="117" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.90288985345902451" blue="0.059193644749589769" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Start Day">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="startButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RtS-zA-UkI"/>
-                                </connections>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2c-k7-eLx">
+                                <rect key="frame" x="246" y="424" width="58" height="58"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weather Forecast:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRP-e8-5x8">
+                                <rect key="frame" x="16" y="424" width="167" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.2024050678" green="0.66756538720000003" blue="0.01346788235" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -193,6 +202,7 @@
                         <outlet property="currentLemonsLabel" destination="MIl-L6-Vs5" id="qZq-MW-a5A"/>
                         <outlet property="iceToMixLabel" destination="ZXa-cJ-SMF" id="4uA-J0-8KF"/>
                         <outlet property="lemonsToMixLabel" destination="wrf-h8-pZA" id="oxK-Qu-4OK"/>
+                        <outlet property="weatherImage" destination="l2c-k7-eLx" id="zxB-cN-efV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     
     var customers:[Double] = []
     
+    var weatherValue:Int = 0
+    
     // Labels
     
     @IBOutlet weak var currentCashLabel: UILabel!
@@ -37,6 +39,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var lemonsToMixLabel: UILabel!
     
     @IBOutlet weak var iceToMixLabel: UILabel!
+    
+    // Images
+    
+    @IBOutlet weak var weatherImage: UIImageView!
     
     // Buttons
     
@@ -149,11 +155,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func startButtonPressed(sender: AnyObject) {
+        
         if lemonsToMix > 0 || iceToMix > 0 {
+            println("Start of Day")
             lemonadeRatio = Double(lemonsToMix) / Double(iceToMix)
             customers.removeAll(keepCapacity: false)
             createCustomers()
-            
             for var customer = 0; customer < customers.count; customer++ {
                 if (customers[customer] >= 0 && customers[customer] < 0.4 && lemonadeRatio > 1) {
                     
@@ -175,10 +182,8 @@ class ViewController: UIViewController {
                     println("No match, No revenue")
                 }
             }
-            
-            lemonsToMix = 0
-            iceToMix = 0
-            
+            println("Total customers: \(customers.count)")
+            initializer()
             updateMainView()
             
             if currentCash == 0 {
@@ -191,11 +196,10 @@ class ViewController: UIViewController {
         
     }
     
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        initializer()
         updateMainView()
     }
 
@@ -205,12 +209,14 @@ class ViewController: UIViewController {
     }
 
     func updateMainView() {
-        self.currentCashLabel.text = "\(currentCash)"
+        self.currentCashLabel.text = "$\(currentCash)"
         self.currentLemonsLabel.text = "\(currentLemons)"
         self.currentIceLabel.text = "\(currentIce)"
         
         self.lemonsToMixLabel.text = "\(lemonsToMix)"
         self.iceToMixLabel.text = "\(iceToMix)"
+        
+        setWeather(weatherValue)
     }
     
     func showAlertWithText(header: String = "Warning", message: String) {
@@ -221,12 +227,46 @@ class ViewController: UIViewController {
     
     func createCustomers() {
         
-        var numberOfCustomers = Int(arc4random_uniform(UInt32(10)))
+        var weatherFactor:Int = 1
+        
+        switch weatherValue {
+        case 0:
+            weatherFactor = -3
+        case 1:
+            weatherFactor = 0
+        case 2:
+            weatherFactor = 3
+        default:
+            weatherFactor = 0
+        }
+        
+        var numberOfCustomers = Int(arc4random_uniform(UInt32(10 + weatherFactor)))
         
         for var i = 0; i <= numberOfCustomers; i++ {
             self.customers.append((Double(arc4random_uniform(UInt32(100)))+1)/100)
         }
         
+    }
+    
+    func setWeather(weather:Int) {
+        switch weather {
+        case 0:
+            weatherImage.image = UIImage(named: "Cold")
+        case 1:
+            weatherImage.image = UIImage(named: "Mild")
+        case 2:
+            weatherImage.image = UIImage(named: "Warm")
+        default:
+            weatherImage.image = UIImage(named: "Mild")
+        }
+        
+    }
+    
+    func initializer() {
+        lemonsToMix = 0
+        iceToMix = 0
+        weatherValue = Int(arc4random_uniform(UInt32(3)))
+        setWeather(weatherValue)
     }
 
 }
