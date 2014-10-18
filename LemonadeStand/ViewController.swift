@@ -21,9 +21,6 @@ class ViewController: UIViewController {
     var currentLemons:Int = 1
     var currentIce:Int = 1
     
-    var lemonsToBuy:Int = 0
-    var iceToBuy:Int = 0
-    
     var lemonsToMix:Int = 0
     var iceToMix:Int = 0
     var lemonadeRatio:Double = 0.0
@@ -36,9 +33,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var currentLemonsLabel: UILabel!
     @IBOutlet weak var currentIceLabel: UILabel!
     
-    @IBOutlet weak var lemonsForPurchaseLabel: UILabel!
-    @IBOutlet weak var iceForPurchaseLabel: UILabel!
-    
     
     @IBOutlet weak var lemonsToMixLabel: UILabel!
     
@@ -49,7 +43,6 @@ class ViewController: UIViewController {
     @IBAction func purchaseLemonPressed(sender: AnyObject) {
         
         if currentCash >= lemonPrice {
-            lemonsToBuy++
             currentLemons++
             currentCash -= lemonPrice
         }
@@ -63,13 +56,12 @@ class ViewController: UIViewController {
 
     @IBAction func unpurchaseLemonPressed(sender: AnyObject) {
         
-        if lemonsToBuy <= 0 {
-            showAlertWithText(message: "You can't take away any more lemons!")
-        }
-        else {
-            lemonsToBuy--
+        if currentLemons > 0 {
             currentLemons--
             currentCash += lemonPrice
+        }
+        else {
+            showAlertWithText(header: "Error", message: "You can't take away any more lemons!")
         }
         
         updateMainView()
@@ -78,7 +70,6 @@ class ViewController: UIViewController {
 
     @IBAction func purchaseIcePressed(sender: AnyObject) {
         if currentCash >= icePrice {
-            iceToBuy++
             currentIce++
             currentCash -= icePrice
         }
@@ -92,13 +83,12 @@ class ViewController: UIViewController {
 
     @IBAction func unpurchaseIcePressed(sender: AnyObject) {
         
-        if iceToBuy <= 0 {
-            showAlertWithText(message: "You can't take away any more ice cubes!")
-        }
-        else {
-            iceToBuy--
+        if currentIce > 0 {
             currentIce--
             currentCash += icePrice
+        }
+        else {
+            showAlertWithText(header: "Error", message: "You can't take away any more ice cubes!")
         }
         
         updateMainView()
@@ -106,42 +96,99 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addLemonMixPressed(sender: AnyObject) {
+        
+        if currentLemons > 0 {
+            currentLemons--
+            lemonsToMix++
+        }
+        else {
+            showAlertWithText(message: "You don't have any more lemons to add to the mix!")
+        }
+        
+        updateMainView()
+        
     }
     
     @IBAction func subtractLemonMixPressed(sender: AnyObject) {
+       
+        if lemonsToMix > 0 {
+            lemonsToMix--
+            currentLemons++
+        }
+        else {
+            showAlertWithText(header: "Error", message: "There are no more lemons to remove from the mix!")
+        }
+        
+        updateMainView()
     }
     
     @IBAction func addIceMixPressed(sender: AnyObject) {
+        
+        if currentIce > 0 {
+            currentIce--
+            iceToMix++
+        }
+        else {
+            showAlertWithText(message: "You don't have any more ice cubes to add to the mix!")
+        }
+        
+        updateMainView()
     }
     
     @IBAction func subtractIceMixPressed(sender: AnyObject) {
+        
+        if iceToMix > 0 {
+            iceToMix--
+            currentIce++
+        }
+        else {
+            showAlertWithText(header: "Error", message: "There are no more ice cubes to remove from the mix!")
+        }
+        
+        updateMainView()
     }
     
     @IBAction func startButtonPressed(sender: AnyObject) {
-        customers.removeAll(keepCapacity: false)
-        createCustomers()
-
-        for var customer = 0; customer < customers.count; customer++ {
-            if (customers[customer] >= 0 && customers[customer] < 0.4 && lemonadeRatio > 1) {
-                
-                
-                println("Paid")
+        if lemonsToMix > 0 || iceToMix > 0 {
+            lemonadeRatio = Double(lemonsToMix) / Double(iceToMix)
+            customers.removeAll(keepCapacity: false)
+            createCustomers()
+            
+            for var customer = 0; customer < customers.count; customer++ {
+                if (customers[customer] >= 0 && customers[customer] < 0.4 && lemonadeRatio > 1) {
+                    
+                    currentCash++
+                    println("Paid")
+                }
+                else if (customers[customer] >= 0.4 && customers[customer] < 0.6 && lemonadeRatio == 1) {
+                    
+                    currentCash++
+                    println("Paid")
+                }
+                else if (customers[customer] >= 0.6 && customers[customer] < 1.0 && lemonadeRatio < 1) {
+                    
+                    currentCash++
+                    println("Paid")
+                }
+                else {
+                    //no payment
+                    println("No match, No revenue")
+                }
             }
-            else if (customers[customer] >= 0.4 && customers[customer] < 0.6 && lemonadeRatio == 1) {
-                
-                
-                println("Paid")
-            }
-            else if (customers[customer] >= 0.6 && customers[customer] < 1.0 && lemonadeRatio < 1) {
-                
-                
-                println("Paid")
-            }
-            else {
-                //no payment
-                println("No match, No revenue")
+            
+            lemonsToMix = 0
+            iceToMix = 0
+            
+            updateMainView()
+            
+            if currentCash == 0 {
+                showAlertWithText(header: "You Lose", message: "You're out of money to run your lemonade stand!")
             }
         }
+        else {
+            showAlertWithText(header: "Error", message: "You must have at least one lemon or one ice cube in your lemonade mix!")
+        }
+        
     }
     
 
@@ -161,9 +208,6 @@ class ViewController: UIViewController {
         self.currentCashLabel.text = "\(currentCash)"
         self.currentLemonsLabel.text = "\(currentLemons)"
         self.currentIceLabel.text = "\(currentIce)"
-        
-        self.lemonsForPurchaseLabel.text = "\(lemonsToBuy)"
-        self.iceForPurchaseLabel.text = "\(iceToBuy)"
         
         self.lemonsToMixLabel.text = "\(lemonsToMix)"
         self.iceToMixLabel.text = "\(iceToMix)"
